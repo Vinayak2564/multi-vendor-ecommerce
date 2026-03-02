@@ -50,7 +50,7 @@ router.delete("/products/:id", protect, adminOnly, async (req, res) => {
 // delete user //
 router.delete("/users/:id", protect, adminOnly, async (req, res) => {
   try {
-    const User = require("../models/User");
+    const User = require("../models/user");
     const user = await User.findById(req.params.id);
     if (!user)
       return res.status(404).json({ message: "User not found" });

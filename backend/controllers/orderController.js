@@ -4,7 +4,7 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 
 
-// ================= CREATE ORDER =================
+// create orders //
 exports.createOrder = async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -80,7 +80,7 @@ exports.createOrder = async (req, res) => {
 };
 
 
-// ================= DOWNLOAD INVOICE =================
+//invoice //
 exports.downloadInvoice = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
@@ -92,7 +92,7 @@ exports.downloadInvoice = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    // 🔐 Allow only Customer, Vendor or Admin
+    // allows for only admin,vendor,and customer //
     if (
       order.customer._id.toString() !== req.user.id &&
       order.vendor._id.toString() !== req.user.id &&
@@ -101,7 +101,7 @@ exports.downloadInvoice = async (req, res) => {
       return res.status(403).json({ message: "Not authorized" });
     }
 
-    // 💰 Only allow paid orders
+    // only paid orders //
     if (order.paymentStatus !== "paid") {
       return res.status(400).json({
         message: "Invoice available only for paid orders",
@@ -118,7 +118,7 @@ exports.downloadInvoice = async (req, res) => {
 
     doc.pipe(res);
 
-    // Title
+    // Title //
     doc.fontSize(20).text("Invoice", { align: "center" });
     doc.moveDown();
 
@@ -156,17 +156,14 @@ exports.downloadInvoice = async (req, res) => {
 };
 
 
-// ================= REST OF YOUR EXISTING FUNCTIONS =================
-// (Keep your existing getMyOrders, getVendorOrders, updateOrderStatus,
-// updatePaymentStatus, cancelOrder exactly as they are)
 
 
-// ================= UPDATE PAYMENT STATUS =================
+// update payment status //
 exports.updatePaymentStatus = async (req, res) => {
   try {
     const { paymentStatus, transactionId } = req.body;
 
-    const User = require("../models/User");
+    const User = require("../models/user");
 
     const order = await Order.findById(req.params.id);
 
@@ -174,7 +171,7 @@ exports.updatePaymentStatus = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    // Prevent double credit
+    // cancels double credit cards //
     if (order.paymentStatus === "paid") {
       return res.status(400).json({
         message: "Payment already processed",
@@ -191,7 +188,7 @@ exports.updatePaymentStatus = async (req, res) => {
       order.adminCommission = adminCommission;
       order.vendorEarning = vendorEarning;
 
-      // 💰 CREDIT VENDOR WALLET
+      // vendor wallet //
       const vendor = await User.findById(order.vendor);
 
       if (vendor) {
@@ -213,7 +210,7 @@ exports.updatePaymentStatus = async (req, res) => {
   }
 };
 
-// ================= GET MY ORDERS =================
+// GET my orders //
 exports.getMyOrders = async (req, res) => {
   try {
     if (!req.user || !req.user.id) {
@@ -223,7 +220,7 @@ exports.getMyOrders = async (req, res) => {
     }
 
     const orders = await Order.find({
-      customer: req.user.id,   // 🔥 IMPORTANT (NOT user)
+      customer: req.user.id,   
     })
       .populate("product")
       .populate("vendor", "name email")
@@ -239,7 +236,7 @@ exports.getMyOrders = async (req, res) => {
   }
 };
 
-// ================= CANCEL ORDER =================
+// cancel order //
 exports.cancelOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -248,12 +245,12 @@ exports.cancelOrder = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    // Only customer can cancel
+    // Only customer can cancel //
     if (order.customer.toString() !== req.user.id) {
       return res.status(403).json({ message: "Not authorized" });
     }
 
-    // Prevent cancel if already shipped or delivered
+    // Prevent cancel if already shipped or delivered //
     if (order.status === "shipped" || order.status === "delivered") {
       return res.status(400).json({
         message: "Order cannot be cancelled after shipping",
@@ -262,7 +259,7 @@ exports.cancelOrder = async (req, res) => {
 
     order.status = "cancelled";
 
-    // Restore stock
+    // Restore stock //
     const product = await Product.findById(order.product);
     if (product) {
       product.stock += order.quantity;

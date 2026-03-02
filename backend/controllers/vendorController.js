@@ -142,7 +142,7 @@ exports.getVendorDashboard = async (req, res) => {
     const vendorId = req.user._id;
 
     const Order = require("../models/Order");
-    const User = require("../models/User");
+    const User = require("../models/user");
 
     const orders = await Order.find({ vendor: vendorId });
 
@@ -187,7 +187,7 @@ exports.requestWithdrawal = async (req, res) => {
   try {
     const { amount } = req.body;
 
-    const User = require("../models/User");
+    const User = require("../models/user");
 
     if (req.user.role !== "vendor") {
       return res.status(403).json({

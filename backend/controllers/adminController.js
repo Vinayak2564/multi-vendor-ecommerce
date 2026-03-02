@@ -1,6 +1,6 @@
 
 
-const User = require("../models/User");
+const User = require("../models/user");
 const Product = require("../models/Product");
 const Order = require("../models/Order");
 
@@ -141,7 +141,7 @@ const getAllWithdrawals = async (req, res) => {
 const approveWithdrawal = async (req, res) => {
   try {
     const Withdrawal = require("../models/Withdrawal");
-    const User = require("../models/User");
+    const User = require("../models/user");
 
     const withdrawal = await Withdrawal.findById(req.params.id);
 

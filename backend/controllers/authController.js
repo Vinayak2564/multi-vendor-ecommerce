@@ -1,9 +1,9 @@
-const User = require("../models/User");
+const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 
-// ================= REGISTER =================
+// register // 
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -16,7 +16,7 @@ exports.registerUser = async (req, res) => {
       });
     }
 
-    // ❌ Do NOT hash here — model will hash
+    
 
     const user = await User.create({
       name,
@@ -39,7 +39,7 @@ exports.registerUser = async (req, res) => {
 
 
 
-// ================= LOGIN =================
+// login //
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
