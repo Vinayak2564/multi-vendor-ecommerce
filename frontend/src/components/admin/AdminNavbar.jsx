@@ -1,4 +1,4 @@
-// src/components/admin/AdminNavbar.jsx
+
 
 export default function AdminNavbar() {
   return (

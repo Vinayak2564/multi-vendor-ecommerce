@@ -71,7 +71,7 @@ export default function Dashboard() {
         <StatCard title="Pending Withdrawals" value={`₹${stats.pendingWithdrawalAmount}`} icon={<Wallet />} />
       </div>
 
-      {/* ===== CHART SECTION ===== */}
+      {/*  CHART SECTION  */}
       <div className="bg-white p-6 rounded-2xl shadow-sm">
         <h2 className="text-lg font-semibold mb-4 text-slate-700">
           Monthly Sales Overview
@@ -79,7 +79,7 @@ export default function Dashboard() {
         <MonthlyChart data={monthly} />
       </div>
 
-      {/* ===== LOW STOCK ===== */}
+      {/* LOW STOCK  */}
       <div className="bg-white p-6 rounded-2xl shadow-sm">
         <h2 className="text-lg font-semibold mb-4 text-slate-700">
           Low Stock Products

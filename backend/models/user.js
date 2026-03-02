@@ -25,13 +25,13 @@ const userSchema = new mongoose.Schema(
       default: "customer",
     },
 
-    // 🏦 Vendor Wallet Balance
+    // Vendor Wallet Balance //
     walletBalance: {
       type: Number,
       default: 0,
     },
 
-    // 💳 Bank Details (for withdrawal)
+    //  Details (for withdrawal) //
     bankDetails: {
       accountHolderName: String,
       bankName: String,

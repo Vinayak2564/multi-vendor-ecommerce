@@ -4,12 +4,12 @@ export default function Navbar() {
 
   const navigate = useNavigate();
 
-  // Get user from localStorage
+  // Get user from localStorage //
   const user = JSON.parse(
     localStorage.getItem("user")
   );
 
-  // Logout
+  // Logout //
   const logout = () => {
     localStorage.clear();
     navigate("/login");
@@ -99,7 +99,7 @@ export default function Navbar() {
   );
 }
 
-// ================= STYLES =================
+// styles //
 const navStyle = {
   padding: "12px 20px",
   background: "#111",

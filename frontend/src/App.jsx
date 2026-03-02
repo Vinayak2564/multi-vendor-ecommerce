@@ -10,7 +10,7 @@ import Products from "./pages/Products";
 import MyOrders from "./pages/MyOrders";
 import VendorOrders from "./pages/VendorOrders";
 import DummyPayment from "./pages/DummyPayment";
-import Checkout from "./pages/checkout";
+import Checkout from "./pages/Checkout";
 
 import VendorDashboard from "./pages/vendor/VendorDashboard";
 import VendorWithdrawals from "./pages/vendor/Withdrawals";

@@ -4,7 +4,7 @@ const API = "http://localhost:5000/api/products";
 
 // 🟢 ADD PRODUCT
 export const addProduct = (data) => {
-  // If you are sending image, data should be FormData
+  
   return axios.post(`${API}/add`, data, {
     headers: {
       "Content-Type": "multipart/form-data",
