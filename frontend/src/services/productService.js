@@ -1,0 +1,31 @@
+import axios from "axios";
+
+const API = "http://localhost:5000/api/products";
+
+// 🟢 ADD PRODUCT
+export const addProduct = (data) => {
+  // If you are sending image, data should be FormData
+  return axios.post(`${API}/add`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+// 🟢 GET VENDOR PRODUCTS
+export const getVendorProducts = (vendorId) => {
+  return axios.get(`${API}/vendor/${vendorId}`);
+};
+
+// 🔴 DELETE PRODUCT
+export const deleteProduct = (id) => {
+  return axios.delete(`${API}/${id}`);
+};
+
+// 🟡 UPDATE PRODUCT
+export const updateProduct = (id, data) =>
+  axios.put(`${API}/${id}`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
