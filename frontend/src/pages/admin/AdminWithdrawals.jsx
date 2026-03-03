@@ -7,7 +7,7 @@ export default function AdminWithdrawals() {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("all");
 
-  const BASE_URL = "http://localhost:5000/api/admin";
+  const BASE_URL = `${import.meta.env.VITE_API_URL}/admin`;
 
   const fetchWithdrawals = async () => {
     try {
