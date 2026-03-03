@@ -28,7 +28,7 @@ function VendorOrders() {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:5000/api/vendor/orders",
+        `${import.meta.env.VITE_API_URL}/vendor/orders`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -45,7 +45,7 @@ function VendorOrders() {
       const token = localStorage.getItem("token");
 
       await axios.put(
-        `http://localhost:5000/api/vendor/orders/${orderId}`,
+        `${import.meta.env.VITE_API_URL}/vendor/orders/${orderId}`,
         { status },
         {
           headers: { Authorization: `Bearer ${token}` },

@@ -19,7 +19,7 @@ fetchEarnings();
 const fetchEarnings = async () => {
 try {
 const res = await axios.get(
-`http://localhost:5000/api/vendor/earnings/${vendorId}`
+`${import.meta.env.VITE_API_URL}/vendor/earnings/${vendorId}`
 );
 
   console.log("Earnings API:", res.data); 

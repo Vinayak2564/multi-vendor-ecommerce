@@ -28,7 +28,7 @@ export default function DummyPayment() {
       setLoading(true);
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/payment/dummy-pay",
+        `${import.meta.env.VITE_API_URL}/payment/dummy-pay`,
         {
           orderId,
           status: "paid",

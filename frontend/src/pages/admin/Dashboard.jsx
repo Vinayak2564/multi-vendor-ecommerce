@@ -33,9 +33,9 @@ export default function Dashboard() {
       };
 
       const [statsRes, monthlyRes, lowStockRes] = await Promise.all([
-        fetch("http://localhost:5000/api/admin/stats", { headers }),
-        fetch("http://localhost:5000/api/admin/sales/monthly", { headers }),
-        fetch("http://localhost:5000/api/admin/low-stock", { headers }),
+        fetch(`${import.meta.env.VITE_API_URL}/admin/stats`, { headers }),
+        fetch(`${import.meta.env.VITE_API_URL}/admin/sales/monthly`, { headers }),
+        fetch(`${import.meta.env.VITE_API_URL}/admin/low-stock`, { headers }),
       ]);
 
       const statsData = await statsRes.json();

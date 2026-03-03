@@ -143,7 +143,7 @@ export default function Checkout() {
   src={
     product.image?.startsWith("http")
       ? product.image
-      : `http://localhost:5000/${product.image}`
+      : `${import.meta.env.VITE_API_URL}/${product.image}`
   }
   alt={product.name}
   className="w-full h-full object-cover"

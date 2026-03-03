@@ -12,7 +12,7 @@ const Withdrawals = () => {
   const fetchWallet = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/vendor/wallet",
+        `${import.meta.env.VITE_API_URL}/vendor/wallet`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -26,7 +26,7 @@ const Withdrawals = () => {
   const fetchWithdrawals = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/vendor/withdrawals",
+        `${import.meta.env.VITE_API_URL}/vendor/withdrawals`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -54,7 +54,7 @@ const Withdrawals = () => {
       setLoading(true);
 
       await axios.post(
-        "http://localhost:5000/api/vendor/withdrawal",
+        `${import.meta.env.VITE_API_URL}/vendor/withdrawal`,
         { amount },
         {
           headers: { Authorization: `Bearer ${token}` },

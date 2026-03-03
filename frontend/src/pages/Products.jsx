@@ -192,7 +192,7 @@ export default function Products() {
                 className="bg-white rounded-3xl shadow-md hover:shadow-xl transition overflow-hidden"
               >
                 <img
-                  src={`http://localhost:5000/${p.image}`}
+                  src={`${import.meta.env.VITE_API_URL}/${p.image}`}
                   alt={p.name}
                   className="w-full h-52 object-cover"
                   onError={(e) =>

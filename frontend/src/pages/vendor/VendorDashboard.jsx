@@ -11,7 +11,7 @@ export default function VendorDashboard() {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:5000/api/vendor/dashboard",
+        `${import.meta.env.VITE_API_URL}/vendor/dashboard`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

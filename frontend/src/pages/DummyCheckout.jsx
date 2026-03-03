@@ -4,7 +4,7 @@ export default function DummyCheckout({ orderId }) {
 
   const handlePayment = async (status) => {
     const { data } = await axios.post(
-      "http://localhost:5000/api/payment/dummy",
+      `${import.meta.env.VITE_API_URL}/payment/dummy`,
       {
         orderId,
         status,

@@ -15,7 +15,7 @@ function MyOrders() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "http://localhost:5000/api/orders/my-orders",
+        `${import.meta.env.VITE_API_URL}/orders/my-orders`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setOrders(res.data);
@@ -28,7 +28,7 @@ function MyOrders() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/orders/${orderId}/cancel`,
+        `${import.meta.env.VITE_API_URL}/orders/${orderId}/cancel`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -44,7 +44,7 @@ function MyOrders() {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:5000/api/orders/${orderId}`,
+        `${import.meta.env.VITE_API_URL}/orders/${orderId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("Order Deleted 🗑️");
@@ -85,7 +85,7 @@ Status: ${order.status}
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `http://localhost:5000/api/products/${order.product._id}/reviews`,
+        `${import.meta.env.VITE_API_URL}/products/${order.product._id}/reviews`,
         { rating, comment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -156,7 +156,7 @@ Status: ${order.status}
                     {/* LEFT SIDE */}
                     <div>
                       <img
-                        src={`http://localhost:5000/${order.product?.image}`}
+                        src={`${import.meta.env.VITE_API_URL}/${order.product?.image}`}
                         alt={order.product?.name}
                         className="w-40 h-40 object-cover rounded-xl mb-4"
                       />
