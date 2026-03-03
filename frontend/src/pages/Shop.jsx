@@ -12,10 +12,12 @@ export default function Shop() {
 
   useEffect(() => {
     const fetchProducts = async () => {
+
+      console.log("Fetching products from API:", import.meta.env.VITE_API_URL); // Debug log
       try {
         // 🔥 FIX: Added large limit to fetch all products
         const res = await axios.get(
-          "http://localhost:5000/api/products?limit=1000"
+          `${import.meta.env.VITE_API_URL}/products?limit=1000`
         );
 
         setProducts(res.data.products || []);
@@ -79,7 +81,7 @@ export default function Shop() {
               >
                 <div className="h-56 overflow-hidden bg-gray-100">
                   <img
-                    src={`http://localhost:5000/${product.image}`}
+                    src={`${import.meta.env.VITE_API_URL}/${product.image}`}
                     alt={product.name}
                     className="w-full h-full object-cover hover:scale-105 transition duration-300"
                   />
