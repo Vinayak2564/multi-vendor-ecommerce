@@ -49,19 +49,5 @@ router.put("/:id", protect, upload.single("image"), updateProduct);
 router.delete("/:id", protect, deleteProduct);
 
 
-const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const cloudinary = require("../config/cloudinary");
-
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "multi-vendor-products",
-    allowed_formats: ["jpg", "png", "jpeg", "webp"],
-  },
-});
-
-const upload = multer({ storage });
-
 
 module.exports = router;
