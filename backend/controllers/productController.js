@@ -20,7 +20,7 @@ const addProduct = async (req, res) => {
       description,
       stock,
       vendor: req.user._id, // 🔥 secure
-      image: req.file ? `uploads/${req.file.filename}` : "",
+      image: req.file ? req.file.path : "",
     });
 
     await product.save();
@@ -128,7 +128,7 @@ const updateProduct = async (req, res) => {
     };
 
     if (req.file) {
-      updateData.image = `uploads/${req.file.filename}`;
+      updateData.image = req.file.path;
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(
