@@ -15,7 +15,7 @@ export default function Shop() {
 
       console.log("Fetching products from API:", import.meta.env.VITE_API_URL); // Debug log
       try {
-        // 🔥 FIX: Added large limit to fetch all products
+      
         const res = await axios.get(
           `${import.meta.env.VITE_API_URL}/products?limit=1000`
         );
@@ -81,7 +81,7 @@ export default function Shop() {
               >
                 <div className="h-56 overflow-hidden bg-gray-100">
                   <img
-                    src={`${import.meta.env.VITE_API_URL}/${product.image}`}
+                    src={`${import.meta.env.VITE_API_URL.replace("/api","")}${product.image}`}
                     alt={product.name}
                     className="w-full h-full object-cover hover:scale-105 transition duration-300"
                   />
