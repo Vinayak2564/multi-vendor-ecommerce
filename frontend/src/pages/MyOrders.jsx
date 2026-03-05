@@ -156,11 +156,14 @@ Status: ${order.status}
                     {/* LEFT SIDE */}
                     <div>
                       <img
-                        src={`${import.meta.env.VITE_API_URL.replace("/api","")}/${order.product?.image}`}
-                        alt={order.product?.name}
-                        className="w-40 h-40 object-cover rounded-xl mb-4"
-                      />
-
+  src={
+    order.product?.image?.startsWith("http")
+      ? order.product.image
+      : `${import.meta.env.VITE_API_URL.replace("/api","")}/${order.product?.image}`
+  }
+  alt={order.product?.name}
+  className="w-40 h-40 object-cover rounded-xl mb-4"
+/>
                       <p>Quantity: {order.quantity}</p>
                       <p>Total: ₹{order.totalPrice}</p>
                       <p>Status: {order.status}</p>
