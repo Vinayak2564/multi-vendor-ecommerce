@@ -9,6 +9,16 @@
     <link rel="stylesheet" crossorigin href="/multi-vendor-ecommerce/assets/index-DFEzHiZz.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
+
+    <script>
+      // Ensure hash-based routing works when the user lands on the root path.
+      if (!window.location.hash) {
+        const base = "/multi-vendor-ecommerce/";
+        const path = window.location.pathname.replace(base, "") || "/";
+        window.location.replace(`${base}#${path}`);
+      }
+    </script>
+
   </body>
 </html>
