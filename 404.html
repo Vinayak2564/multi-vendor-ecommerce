@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting…</title>
+    <script>
+      // GitHub Pages 404 fallback: redirect to hash-based routing version
+      // It takes the current path (after /multi-vendor-ecommerce) and redirects to #/path
+      const base = "/multi-vendor-ecommerce";
+      const path = window.location.pathname.replace(base, "") || "/";
+      const target = `${base}/#${path}`;
+      window.location.replace(target);
+    </script>
+  </head>
+  <body>
+    <p>Redirecting…</p>
+  </body>
+</html>
