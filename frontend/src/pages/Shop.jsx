@@ -13,19 +13,19 @@ export default function Shop() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      console.log("Fetching products from API:", API_URL);
+  const fetchProducts = async () => {
+    console.log("Fetching products from API:", API_URL);
 
-      try {
-        const res = await axios.get(`${API_URL}/products?limit=1000`);
-        setProducts(res.data.products || []);
-      } catch (error) {
-        console.error("Product fetch error:", error);
-      }
-    };
+    try {
+      const res = await axios.get(`${API_URL}/api/products?limit=1000`);
+      setProducts(res.data.products || []);
+    } catch (error) {
+      console.error("Product fetch error:", error);
+    }
+  };
 
-    fetchProducts();
-  }, [API_URL]);
+  fetchProducts();
+}, [API_URL]);
 
   const categories = ["All", ...new Set(products.map((p) => p.category))];
 
