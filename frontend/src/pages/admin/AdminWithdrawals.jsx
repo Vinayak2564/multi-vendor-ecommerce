@@ -7,14 +7,14 @@ export default function AdminWithdrawals() {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("all");
 
-  const BASE_URL = `${import.meta.env.VITE_API_URL}/admin`;
+  const BASE_URL = `${import.meta.env.VITE_API_URL}/api/admin`;
 
   const fetchWithdrawals = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Please login again.");
 
-      const res = await fetch(`${BASE_URL}/withdrawals`, {
+      const res = await fetch(`${BASE_URL}/api/withdrawals`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -36,7 +36,7 @@ export default function AdminWithdrawals() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `${BASE_URL}/withdrawal/${id}/${action}`,
+        `${BASE_URL}/api/withdrawal/${id}/${action}`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },
