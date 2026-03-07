@@ -9,10 +9,10 @@ export default function Shop() {
 
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [search, setSearch] = useState("");
 
   const API_URL = import.meta.env.VITE_API_URL;
 
-  // get logged user
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -30,14 +30,17 @@ export default function Shop() {
 
   const categories = ["All", ...new Set(products.map((p) => p.category))];
 
-  const filteredProducts =
-    selectedCategory === "All"
-      ? products
-      : products.filter(
-          (p) =>
-            p.category &&
-            p.category.toLowerCase() === selectedCategory.toLowerCase()
-        );
+  const filteredProducts = products.filter((p) => {
+    const matchCategory =
+      selectedCategory === "All" ||
+      p.category?.toLowerCase() === selectedCategory.toLowerCase();
+
+    const matchSearch =
+      p.name?.toLowerCase().includes(search.toLowerCase()) ||
+      p.category?.toLowerCase().includes(search.toLowerCase());
+
+    return matchCategory && matchSearch;
+  });
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -47,7 +50,7 @@ export default function Shop() {
           Shop Products
         </h1>
 
-        {/* ROLE BASED BUTTONS */}
+        {/* ROLE BUTTONS */}
         <div className="flex flex-wrap justify-center gap-4 mb-10">
 
           {!user && (
@@ -106,6 +109,28 @@ export default function Shop() {
 
         </div>
 
+        {/* SEARCH BAR */}
+        <div className="flex justify-center mb-8">
+          <div className="relative w-full max-w-xl">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none"
+            />
+
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                className="absolute right-3 top-3 text-gray-400 hover:text-black"
+              >
+                ✖
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* CATEGORY FILTER */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {categories.map((cat, index) => (
@@ -124,7 +149,9 @@ export default function Shop() {
         </div>
 
         {filteredProducts.length === 0 ? (
-          <p className="text-center text-gray-500">No Products Found</p>
+          <p className="text-center text-gray-500 text-lg">
+            No products found 🔍
+          </p>
         ) : (
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {filteredProducts.map((product) => {
@@ -153,6 +180,10 @@ export default function Shop() {
                       {product.name}
                     </h2>
 
+                    <p className="text-sm text-gray-500 mb-2 capitalize">
+                      {product.category}
+                    </p>
+
                     <p className="text-2xl font-bold text-indigo-600 mb-4">
                       ₹{product.price}
                     </p>
@@ -160,7 +191,7 @@ export default function Shop() {
                     <div className="flex gap-3">
                       <button
                         onClick={() => addToCart(product)}
-                        className="flex-1 bg-indigo-600 text-white py-2.5 rounded-lg"
+                        className="flex-1 bg-indigo-600 text-white py-2.5 rounded-lg hover:bg-indigo-700"
                       >
                         Add to Cart 🛒
                       </button>
@@ -172,7 +203,7 @@ export default function Shop() {
                             state: { product: product, quantity: 1 },
                           })
                         }
-                        className="flex-1 bg-green-600 text-white py-2.5 rounded-lg"
+                        className="flex-1 bg-green-600 text-white py-2.5 rounded-lg hover:bg-green-700 disabled:opacity-50"
                       >
                         Buy Now ⚡
                       </button>
