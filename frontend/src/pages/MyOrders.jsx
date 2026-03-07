@@ -15,7 +15,7 @@ function MyOrders() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/orders/my-orders`,
+        `${import.meta.env.VITE_API_URL}/api/orders/my-orders`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setOrders(res.data);
@@ -28,7 +28,7 @@ function MyOrders() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `${import.meta.env.VITE_API_URL}/orders/${orderId}/cancel`,
+        `${import.meta.env.VITE_API_URL}/api/orders/${orderId}/cancel`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -44,7 +44,7 @@ function MyOrders() {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `${import.meta.env.VITE_API_URL}/orders/${orderId}`,
+        `${import.meta.env.VITE_API_URL}/api/orders/${orderId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("Order Deleted 🗑️");
@@ -85,7 +85,7 @@ Status: ${order.status}
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `${import.meta.env.VITE_API_URL}/products/${order.product._id}/reviews`,
+        `${import.meta.env.VITE_API_URL}/api/products/${order.product._id}/reviews`,
         { rating, comment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
