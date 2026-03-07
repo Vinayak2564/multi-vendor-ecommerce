@@ -12,20 +12,21 @@ export default function Shop() {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // get logged user
+  const user = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
-  const fetchProducts = async () => {
-    console.log("Fetching products from API:", API_URL);
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/products?limit=1000`);
+        setProducts(res.data.products || []);
+      } catch (error) {
+        console.error("Product fetch error:", error);
+      }
+    };
 
-    try {
-      const res = await axios.get(`${API_URL}/api/products?limit=1000`);
-      setProducts(res.data.products || []);
-    } catch (error) {
-      console.error("Product fetch error:", error);
-    }
-  };
-
-  fetchProducts();
-}, [API_URL]);
+    fetchProducts();
+  }, [API_URL]);
 
   const categories = ["All", ...new Set(products.map((p) => p.category))];
 
@@ -45,6 +46,65 @@ export default function Shop() {
         <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
           Shop Products
         </h1>
+
+        {/* ROLE BASED BUTTONS */}
+        <div className="flex flex-wrap justify-center gap-4 mb-10">
+
+          {!user && (
+            <button
+              onClick={() => navigate("/login")}
+              className="bg-indigo-600 text-white px-5 py-2 rounded-lg"
+            >
+              Login
+            </button>
+          )}
+
+          {user?.role === "customer" && (
+            <>
+              <button
+                onClick={() => navigate("/cart")}
+                className="bg-indigo-600 text-white px-5 py-2 rounded-lg"
+              >
+                Go To Cart 🛒
+              </button>
+
+              <button
+                onClick={() => navigate("/my-orders")}
+                className="bg-green-600 text-white px-5 py-2 rounded-lg"
+              >
+                My Orders 📦
+              </button>
+            </>
+          )}
+
+          {user?.role === "vendor" && (
+            <>
+              <button
+                onClick={() => navigate("/vendor/dashboard")}
+                className="bg-purple-600 text-white px-5 py-2 rounded-lg"
+              >
+                Vendor Dashboard 📊
+              </button>
+
+              <button
+                onClick={() => navigate("/vendor/orders")}
+                className="bg-indigo-600 text-white px-5 py-2 rounded-lg"
+              >
+                Vendor Orders 📦
+              </button>
+            </>
+          )}
+
+          {user?.role === "admin" && (
+            <button
+              onClick={() => navigate("/admin/dashboard")}
+              className="bg-red-600 text-white px-5 py-2 rounded-lg"
+            >
+              Admin Dashboard ⚙️
+            </button>
+          )}
+
+        </div>
 
         {/* CATEGORY FILTER */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -69,7 +129,6 @@ export default function Shop() {
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {filteredProducts.map((product) => {
 
-              // FIX IMAGE URL
               let imageUrl = product.image;
 
               if (imageUrl && !imageUrl.startsWith("http")) {
@@ -94,28 +153,6 @@ export default function Shop() {
                       {product.name}
                     </h2>
 
-                    <div className="flex items-center gap-1 mb-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <span
-                          key={star}
-                          className={`text-sm ${
-                            star <= Math.round(product.rating)
-                              ? "text-yellow-500"
-                              : "text-gray-300"
-                          }`}
-                        >
-                          ★
-                        </span>
-                      ))}
-                      <span className="text-xs text-gray-500 ml-1">
-                        ({product.numReviews})
-                      </span>
-                    </div>
-
-                    <p className="text-sm text-gray-500 mb-3 capitalize">
-                      {product.category}
-                    </p>
-
                     <p className="text-2xl font-bold text-indigo-600 mb-4">
                       ₹{product.price}
                     </p>
@@ -123,7 +160,7 @@ export default function Shop() {
                     <div className="flex gap-3">
                       <button
                         onClick={() => addToCart(product)}
-                        className="flex-1 bg-indigo-600 text-white py-2.5 rounded-lg font-medium hover:bg-indigo-700 transition"
+                        className="flex-1 bg-indigo-600 text-white py-2.5 rounded-lg"
                       >
                         Add to Cart 🛒
                       </button>
@@ -135,7 +172,7 @@ export default function Shop() {
                             state: { product: product, quantity: 1 },
                           })
                         }
-                        className="flex-1 bg-green-600 text-white py-2.5 rounded-lg font-medium hover:bg-green-700 transition disabled:opacity-50"
+                        className="flex-1 bg-green-600 text-white py-2.5 rounded-lg"
                       >
                         Buy Now ⚡
                       </button>
