@@ -14,8 +14,10 @@ export default function AdminWithdrawals() {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Please login again.");
 
-      const res = await fetch(`${BASE_URL}/api/withdrawals`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await fetch(`${BASE_URL}/withdrawals`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (!res.ok) throw new Error("Failed to fetch withdrawals");
@@ -36,10 +38,12 @@ export default function AdminWithdrawals() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `${BASE_URL}/api/withdrawal/${id}/${action}`,
+        `${BASE_URL}/withdrawal/${id}/${action}`,
         {
           method: "PUT",
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -59,19 +63,20 @@ export default function AdminWithdrawals() {
     if (filter === "all") {
       setFiltered(withdrawals);
     } else {
-      setFiltered(
-        withdrawals.filter((w) => w.status === filter)
-      );
+      setFiltered(withdrawals.filter((w) => w.status === filter));
     }
   }, [filter, withdrawals]);
 
   const totalRequests = withdrawals.length;
+
   const totalPendingAmount = withdrawals
     .filter((w) => w.status === "pending")
     .reduce((sum, w) => sum + w.amount, 0);
+
   const totalApprovedAmount = withdrawals
     .filter((w) => w.status === "approved")
     .reduce((sum, w) => sum + w.amount, 0);
+
   const totalRejected = withdrawals.filter(
     (w) => w.status === "rejected"
   ).length;
@@ -85,40 +90,29 @@ export default function AdminWithdrawals() {
         Admin Withdrawal Control
       </h2>
 
-      {/*  SUMMARY CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <Card title="Total Requests" value={totalRequests} />
-        <Card
-          title="Pending Amount"
-          value={`₹${totalPendingAmount}`}
-        />
-        <Card
-          title="Approved Amount"
-          value={`₹${totalApprovedAmount}`}
-        />
+        <Card title="Pending Amount" value={`₹${totalPendingAmount}`} />
+        <Card title="Approved Amount" value={`₹${totalApprovedAmount}`} />
         <Card title="Rejected" value={totalRejected} />
       </div>
 
-      {/* FILTER BUTTONS*/}
       <div className="mb-6 space-x-2">
-        {["all", "pending", "approved", "rejected"].map(
-          (status) => (
-            <button
-              key={status}
-              onClick={() => setFilter(status)}
-              className={`px-4 py-2 rounded capitalize ${
-                filter === status
-                  ? "bg-blue-600 text-white"
-                  : "bg-white border"
-              }`}
-            >
-              {status}
-            </button>
-          )
-        )}
+        {["all", "pending", "approved", "rejected"].map((status) => (
+          <button
+            key={status}
+            onClick={() => setFilter(status)}
+            className={`px-4 py-2 rounded capitalize ${
+              filter === status
+                ? "bg-blue-600 text-white"
+                : "bg-white border"
+            }`}
+          >
+            {status}
+          </button>
+        ))}
       </div>
 
-      {/* TABLE  */}
       <div className="bg-white shadow rounded-lg overflow-hidden">
         <table className="w-full">
           <thead className="bg-gray-100 text-left">
@@ -130,17 +124,17 @@ export default function AdminWithdrawals() {
               <th className="p-4 text-center">Actions</th>
             </tr>
           </thead>
+
           <tbody>
             {filtered.map((w) => (
               <tr key={w._id} className="border-t">
                 <td className="p-4">{w.vendor?.name}</td>
                 <td className="p-4">{w.vendor?.email}</td>
-                <td className="p-4 text-center">
-                  ₹{w.amount}
-                </td>
+                <td className="p-4 text-center">₹{w.amount}</td>
                 <td className="p-4 text-center">
                   <StatusBadge status={w.status} />
                 </td>
+
                 <td className="p-4 text-center space-x-2">
                   {w.status === "pending" && (
                     <>
@@ -152,6 +146,7 @@ export default function AdminWithdrawals() {
                       >
                         Approve
                       </button>
+
                       <button
                         onClick={() =>
                           handleAction(w._id, "reject")
@@ -180,7 +175,6 @@ export default function AdminWithdrawals() {
   );
 }
 
-/*  CARD COMPONENT */
 function Card({ title, value }) {
   return (
     <div className="bg-white p-5 rounded-lg shadow">
@@ -190,7 +184,6 @@ function Card({ title, value }) {
   );
 }
 
-// status badge //
 function StatusBadge({ status }) {
   const styles = {
     pending: "bg-yellow-100 text-yellow-700",
