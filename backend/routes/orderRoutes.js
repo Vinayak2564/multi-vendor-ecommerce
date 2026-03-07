@@ -62,4 +62,11 @@ router.get(
   safeHandler(orderController.downloadInvoice)
 );
 
+// delete order //
+router.delete(
+  "/:id",
+  verifyToken,
+  safeHandler(orderController.deleteOrder)
+);
+
 module.exports = router;
